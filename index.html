@@ -8,7 +8,7 @@
   <pre id="output">Loading...</pre>
 
   <script>
-    fetch('https://raw.githubusercontent.com/yourusername/telegram-automation/main/0001_Telegram_Schedule_Automation_Scheduled.json')
+    fetch('https://raw.githubusercontent.com/yankees-games/telegram-automation/refs/heads/main/0001_Telegram_Schedule_Automation_Scheduled.json')
       .then(response => response.json())
       .then(data => {
         document.getElementById('output').textContent = JSON.stringify(data, null, 2);
