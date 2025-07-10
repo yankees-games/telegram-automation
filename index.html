@@ -1,44 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Telegram Automation JSON Viewer</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    .node { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
-    .node h3 { margin: 0 0 10px; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f7f7f7;
+    }
+    .node {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      padding: 1rem;
+    }
+    .node h3 {
+      margin-top: 0;
+    }
   </style>
 </head>
 <body>
   <h1>Telegram Automation Workflow</h1>
-  <div id="content"></div>
+  <div id="content">Loading...</div>
 
   <script>
-    // Paste your JSON here, or load it from a file if it's separate
-    const data = {
-      "name": "🧠Nostr #damus AI Powered Reporting + Gmail + Telegram",
-      "nodes": [
-        {
-          "name": "When clicking 'test workflow'",
-          "type": "n8n-nodes-base.manualTrigger"
-        },
-        {
-          "name": "Get HTML",
-          "type": "n8n-nodes-base.markdown"
-        },
-        {
-          "name": "Gmail - Themes",
-          "type": "n8n-nodes-base.gmail"
-        }
-      ]
-    };
+    fetch('0001_Telegram_Schedule_Automation_Scheduled.json')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('content');
+        container.innerHTML = '';
 
-    const container = document.getElementById("content");
-    data.nodes.forEach((node, index) => {
-      const div = document.createElement("div");
-      div.className = "node";
-      div.innerHTML = `<h3>Node ${index + 1}: ${node.name}</h3><p>Type: ${node.type}</p>`;
-      container.appendChild(div);
-    });
+        const title = document.createElement('h2');
+        title.textContent = data.name;
+        container.appendChild(title);
+
+        data.nodes.forEach((node, index) => {
+          const div = document.createElement('div');
+          div.className = 'node';
+          div.innerHTML = `
+            <h3>Node ${index + 1}: ${node.name}</h3>
+            <p><strong>Type:</strong> ${node.type}</p>
+          `;
+          container.appendChild(div);
+        });
+      })
+      .catch(error => {
+        document.getElementById('content').innerHTML = '<p style="color:red;">Failed to load JSON.</p>';
+        console.error('Error loading JSON:', error);
+      });
   </script>
 </body>
 </html>
