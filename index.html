@@ -1,21 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Telegram Automation Viewer</title>
+  <title>Telegram Automation JSON Viewer</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .node { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    .node h3 { margin: 0 0 10px; }
+  </style>
 </head>
 <body>
-  <h1>Telegram Automation JSON Data</h1>
-  <pre id="output">Loading...</pre>
+  <h1>Telegram Automation Workflow</h1>
+  <div id="content"></div>
 
   <script>
-    fetch('https://raw.githubusercontent.com/yankees-games/telegram-automation/refs/heads/main/0001_Telegram_Schedule_Automation_Scheduled.json')
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById('output').textContent = JSON.stringify(data, null, 2);
-      })
-      .catch(error => {
-        document.getElementById('output').textContent = 'Error loading JSON: ' + error;
-      });
+    // Paste your JSON here, or load it from a file if it's separate
+    const data = {
+      "name": "🧠Nostr #damus AI Powered Reporting + Gmail + Telegram",
+      "nodes": [
+        {
+          "name": "When clicking 'test workflow'",
+          "type": "n8n-nodes-base.manualTrigger"
+        },
+        {
+          "name": "Get HTML",
+          "type": "n8n-nodes-base.markdown"
+        },
+        {
+          "name": "Gmail - Themes",
+          "type": "n8n-nodes-base.gmail"
+        }
+      ]
+    };
+
+    const container = document.getElementById("content");
+    data.nodes.forEach((node, index) => {
+      const div = document.createElement("div");
+      div.className = "node";
+      div.innerHTML = `<h3>Node ${index + 1}: ${node.name}</h3><p>Type: ${node.type}</p>`;
+      container.appendChild(div);
+    });
   </script>
 </body>
 </html>
